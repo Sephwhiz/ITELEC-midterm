@@ -180,6 +180,22 @@
             margin-bottom: 8px;
         }
 
+        .correct-answer-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #155724;
+        }
+
+        .correct-answer-label {
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 5px;
+        }
+
         /* ===== SCORE BANNER ===== */
         .score-banner {
             background: linear-gradient(135deg, #6b3fa0, #4b2c7a);
@@ -359,22 +375,22 @@
                 { q: "This is a plain text data record used to maintain session information among different pages.", answer: "cookie", explanation: "Cookies are plain text data records used to maintain session information because HTTP is stateless." },
                 { q: "This keyword specifies an expression to be evaluated without returning a value.", answer: "void", explanation: "void is an important keyword in JavaScript which can be used as a unary operator." },
                 { q: "In JavaScript objects, these are name:value pairs contained within the object.", answer: "properties", explanation: "The name:value pairs in JavaScript objects are called properties." },
-                { q: "This JavaScript reserved word indicates that a number is not a legal number.", answer: "nan", explanation: "NaN stands for 'Not a Number'. It results from invalid math operations." },
-                { q: "This built-in object allows you to perform tasks like rounding numbers or finding square roots.", answer: "math", explanation: "The Math object includes methods like Math.round(), Math.pow(), and Math.sqrt()." },
-                { q: "This W3C standard allows JavaScript to access and change all elements of an HTML document.", answer: "dom", explanation: "The HTML DOM is a standard for how to get, change, add, or delete HTML elements." },
+                { q: "This JavaScript reserved word indicates that a number is not a legal number.", answer: "NaN", explanation: "NaN stands for 'Not a Number'. It results from invalid math operations." },
+                { q: "This built-in object allows you to perform tasks like rounding numbers or finding square roots.", answer: "Math", explanation: "The Math object includes methods like Math.round(), Math.pow(), and Math.sqrt()." },
+                { q: "This W3C standard allows JavaScript to access and change all elements of an HTML document.", answer: "DOM", explanation: "The HTML DOM is a standard for how to get, change, add, or delete HTML elements." },
                 { q: "This CSS property allows us to include the padding and border in an element's total width and height.", answer: "box-sizing", explanation: "The box-sizing property (specifically border-box) ensures that padding and border do not increase the total width/height." }
             ],
             enum: [
-                { q: "Enumerate three (3) CSS 2D Transform Methods.", answer: ["translate", "rotate", "scale", "skew", "matrix"], explanation: "Module 5 lists these methods under CSS 2D Transforms. They allow you to move, rotate, scale, and skew elements." },
+                { q: "Enumerate three (3) CSS 2D Transform Methods.", answer: ["translate()", "rotate()", "scale()", "skew()", "matrix()"], explanation: "Module 5 lists these methods under CSS 2D Transforms. They allow you to move, rotate, scale, and skew elements." },
                 { q: "Enumerate three (3) types of JavaScript Loops.", answer: ["for", "for/in", "for/of", "while", "do/while"], explanation: "Module 6 & 7 lists these different kinds of loops. Each serves a purpose." },
-                { q: "Enumerate two (2) ways to access object properties in JavaScript.", answer: ["dot notation", "bracket notation"], explanation: "Module 8 shows you can access properties using objectName.propertyName or objectName['propertyName']." },
-                { q: "Enumerate two (2) string methods often used with Regular Expressions.", answer: ["search", "replace"], explanation: "Module 8 states that in JavaScript, regular expressions are often used with search() and replace()." },
+                { q: "Enumerate two (2) ways to access object properties in JavaScript.", answer: ["Dot notation (object.property)", "Bracket notation (object['property'])"], explanation: "Module 8 shows you can access properties using objectName.propertyName or objectName['propertyName']." },
+                { q: "Enumerate two (2) string methods often used with Regular Expressions.", answer: ["search()", "replace()"], explanation: "Module 8 states that in JavaScript, regular expressions are often used with search() and replace()." },
                 { q: "Enumerate three (3) CSS animation properties.", answer: ["animation-name", "animation-duration", "animation-delay", "animation-iteration-count", "animation-direction"], explanation: "Module 5 lists these animation properties for controlling CSS animations." },
                 { q: "Enumerate two (2) CSS shadow properties.", answer: ["text-shadow", "box-shadow"], explanation: "Module 5 covers both text-shadow and box-shadow for adding shadows." },
                 { q: "Enumerate three (3) JavaScript data types.", answer: ["string", "number", "boolean", "object", "array"], explanation: "Module 8 covers these fundamental JavaScript data types." },
                 { q: "Enumerate two (2) ways to create a Date object.", answer: ["new Date()", "new Date(year, month, day)"], explanation: "Module 8 shows multiple ways to create Date objects using the Date() constructor." },
                 { q: "Enumerate three (3) CSS multi-column properties.", answer: ["column-count", "column-gap", "column-rule"], explanation: "Module 5 covers multi-column layout properties for newspaper-style layouts." },
-                { q: "Enumerate two (2) JavaScript comment styles.", answer: ["//", "/* */"], explanation: "Module 6 & 7 shows single-line (//) and multi-line (/* */) comment styles." }
+                { q: "Enumerate two (2) JavaScript comment styles.", answer: ["// (single-line)", "/* */ (multi-line)"], explanation: "Module 6 & 7 shows single-line (//) and multi-line (/* */) comment styles." }
             ],
             tf: [
                 { q: "CSS3 is divided into several separate documents called 'modules' instead of a single large specification.", answer: true, explanation: "Module 5 states that instead of defining all features in a single specification like CSS 2, CSS 3 is divided into several separate documents called 'modules'." },
@@ -425,6 +441,10 @@
                     <div class="question-text">${item.q}</div>
                     <input type="text" class="answer-input" id="id-input-${index}" placeholder="Type your answer here...">
                     <div class="explanation-box" id="id-exp-${index}">
+                        <div class="correct-answer-box">
+                            <div class="correct-answer-label">✅ Correct Answer:</div>
+                            <div>${item.answer}</div>
+                        </div>
                         <div class="explanation-title">💡 Explanation:</div>
                         <div>${item.explanation}</div>
                     </div>
@@ -438,11 +458,16 @@
                 const card = document.createElement('div');
                 card.className = 'question-card';
                 card.id = `enum-${index}`;
+                const correctAnswersText = item.answer.join(', ');
                 card.innerHTML = `
                     <div class="question-number">Question ${index + 41}</div>
                     <div class="question-text">${item.q}</div>
                     <input type="text" class="answer-input" id="enum-input-${index}" placeholder="Separate answers with commas (e.g., translate, rotate, scale)">
                     <div class="explanation-box" id="enum-exp-${index}">
+                        <div class="correct-answer-box">
+                            <div class="correct-answer-label">✅ Correct Answers:</div>
+                            <div>${correctAnswersText}</div>
+                        </div>
                         <div class="explanation-title">💡 Explanation:</div>
                         <div>${item.explanation}</div>
                     </div>
